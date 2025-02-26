@@ -22,9 +22,9 @@ router.get("/getposts", (req, res) => {
   });
   if (error) return res.status(400).json({ data: error.details[0].message });
 
-  console.log("Before sanitization: " + req.query.postTitle);
+  console.log("Before sanitation: " + req.query.postTitle);
   req.query.postTitle = purify.sanitize(req.query.postTitle);
-  console.log("After sanitization: " + req.query.postTitle);
+  console.log("After sanitation: " + req.query.postTitle);
 
   let postTitle = req.query.postTitle;
   console.log(postTitle);
