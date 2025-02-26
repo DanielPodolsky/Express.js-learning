@@ -29,8 +29,8 @@ A simple Express.js backend application demonstrating basic CRUD operations for 
 
 1. Clone the repository
    ```
-   git clone https://github.com/yourusername/express-api-demo.git
-   cd express-api-demo
+   git clone https://github.com/DanielPodolsky/Express.js-learning.git
+   cd Express.js-learning
    ```
 
 2. Install dependencies
