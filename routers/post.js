@@ -1,4 +1,6 @@
 import { Router } from "express";
+import joi from "joi";
+import purify from "../utils/sanitize.js";
 
 const router = Router();
 
@@ -15,10 +17,19 @@ router.get("/getall", (req, res) => {
 
 // Return posts filtered by title (using a query parameter)
 router.get("/getposts", (req, res) => {
+  const { error } = postTitleValidation.validate({
+    postTitle: req.query.postTitle,
+  });
+  if (error) return res.status(400).json({ data: error.details[0].message });
+
+  console.log("Before sanitization: " + req.query.postTitle);
+  req.query.postTitle = purify.sanitize(req.query.postTitle);
+  console.log("After sanitization: " + req.query.postTitle);
+
   let postTitle = req.query.postTitle;
   console.log(postTitle);
   let filteredPosts = posts.filter((post) => post.title === postTitle);
-  if (!filteredPosts) {
+  if (filteredPosts.length === 0) {
     return res.json({ message: "No posts found!" });
   }
   console.log(`Getting posts with title "${postTitle}":`, filteredPosts);
@@ -70,6 +81,10 @@ router.delete("/deletepost/:id", (req, res) => {
     posts[i].id--;
   }
   res.json({ data: posts, message: "Post deleted successfully!" });
+});
+
+const postTitleValidation = joi.object({
+  postTitle: joi.string().min(3).max(50).required(),
 });
 
 export default router;
