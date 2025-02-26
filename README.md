@@ -35,7 +35,8 @@ A simple Express.js backend application demonstrating basic CRUD operations for 
 
 2. Install dependencies
    ```
-   npm install
+   npm init -y
+   npm install express
    npm install nodemon --save-dev
    ```
 
