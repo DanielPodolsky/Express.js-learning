@@ -56,7 +56,6 @@ express-api-demo/
 ├── routes/
 │   ├── users.js        # User routes
 │   └── posts.js        # Post routes
-├── package.json
 └── README.md
 ```
 
