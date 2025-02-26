@@ -120,6 +120,7 @@ router.delete("/deleteuser-withparams/:id", (req, res) => {
   res.json({ data: users, message: "User deleted!" });
 });
 
+// Delete a user by ID - 2 - Queries
 router.delete("/deleteuser-withqueries", (req, res) => {
   let userID = parseInt(req.query.userID);
   let user = users.find((user) => user.id === userID);
