@@ -1,8 +1,13 @@
-# Express.js API with MongoDB
+# Express.js API with MongoDB & JWT Authentication
 
-A simple Express.js backend application demonstrating CRUD operations for users and posts with MongoDB integration.
+A robust Express.js backend application demonstrating CRUD operations for users and posts with MongoDB integration, along with JWT-based authentication and authorization.
 
 ## Features
+
+### Authentication Routes
+- User registration with password hashing
+- User login with JWT token generation
+- Role-based authorization (Admin vs Regular users)
 
 ### User Routes
 - Get all users
@@ -12,17 +17,16 @@ A simple Express.js backend application demonstrating CRUD operations for users 
 - Delete user by ID (via JSON, URL params, or query strings)
 
 ### Post Routes
-- Get all posts
-- Filter posts by title
-- Add new posts
-- Get post by ID
-- Update post by ID
-- Delete post by ID
+- Get all posts (public access)
+- Add new posts (authenticated users only)
+- Delete posts (admin users only)
 
 ## Tech Stack
 - Node.js
 - Express.js
 - MongoDB with Mongoose
+- JWT for authentication
+- Bcrypt for password hashing
 - DOMPurify for input sanitization
 - Joi for request validation
 
@@ -31,6 +35,7 @@ A simple Express.js backend application demonstrating CRUD operations for users 
 ### Prerequisites
 - Node.js installed on your machine
 - MongoDB Atlas account (or local MongoDB installation)
+- JWT secret key (for token generation)
 
 ### Installation
 
@@ -42,15 +47,8 @@ A simple Express.js backend application demonstrating CRUD operations for users 
 
 2. Install dependencies
    ```
-   npm install express mongoose dotenv dompurify jsdom joi
-   npm install nodemon --save-dev
-   ```
-
-   Alternatively, you can simply run:
-   ```
    npm install
    ```
-   which will install all dependencies listed in package.json.
 
 3. Create a `.env` file in the root directory with the following variables:
    ```
@@ -58,6 +56,7 @@ A simple Express.js backend application demonstrating CRUD operations for users 
    MONGODB_PASSWORD=your_mongodb_password
    MONGODB_CLUSTER=your_cluster.mongodb.net
    MONGODB_OPTIONS=retryWrites=true&w=majority&appName=Cluster0
+   JWT_SECRET=your_jwt_secret_key
    ```
 
 ### Running the Application
@@ -73,22 +72,39 @@ The server will start on port 3000.
 
 ```
 express-api-mongo/
-├── app.js                  # Main application entry point
-├── models/                 # MongoDB models
-│   ├── post.js             # Post schema and model
-│   └── user.js             # User schema and model
-├── routers/                # API routes
-│   ├── post.js             # Post routes
-│   └── user.js             # User routes
-├── utils/                  # Utility functions
-│   ├── databaseConnection.js  # MongoDB connection setup
-│   └── sanitize.js         # Input sanitization setup
-├── validation/             # Request validation schemas
-│   ├── post.js             # Post validation
-│   └── user.js             # User validation
+├── app.js                      # Main application entry point
+├── models/                     # MongoDB models
+│   ├── user.js                 # User schema and model
+│   └── userAuth.js             # User authentication schema and model
+├── routers/                    # API routes
+│   ├── post.js                 # Post routes with authentication
+│   ├── user.js                 # User CRUD routes
+│   └── userAuth.js             # Authentication routes
+├── utils/                      # Utility functions
+│   ├── databaseConnection.js   # MongoDB connection setup
+│   ├── sanitize.js             # Input sanitization setup
+│   └── token.js                # JWT token generation and verification
+├── validation/                 # Request validation schemas
+│   ├── user.js                 # User validation schemas
+│   └── userAuth.js             # Authentication validation schemas
 └── README.md
 
 ```
+
+## Security Features
+
+- Password hashing with bcrypt
+- JWT-based authentication
+- HTTP-only cookies for token storage
+- Input sanitization to prevent XSS attacks
+- Request validation with Joi
+- Role-based access control
+
 ## Notes
 
-This is a learning project demonstrating Express.js REST API development with MongoDB. The code includes various approaches to handle input data (JSON body, URL parameters, query strings) along with proper validation and sanitization.
+This project demonstrates a variety of Express.js features including:
+- Multiple ways to handle input data (JSON body, URL parameters, query strings)
+- Proper validation and sanitization
+- Authentication and authorization
+- Database integration with MongoDB/Mongoose
+- Middleware-based route protection
